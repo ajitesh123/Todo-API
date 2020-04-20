@@ -1,7 +1,16 @@
 # AWS Serverless TODO APP
 It's a simple Todo app built using AWS serverless framework.
 
+# Tech Stack
+- AWS Lambda 
+- S3 Bucket 
+- AWS API Gateway 
+- DynamoDB
+- Serverless Framwork 
+
 # API Documentation 
+Link of POSTMAN Collection - https://documenter.getpostman.com/view/8444799/Szf6Xo6U?version=latest
+
 ## GET Get all todos
 ```
 https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos
