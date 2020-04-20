@@ -1,3 +1,5 @@
+org: ajiteshleo
+app: serverless-todo-app-app
 service:
   name: serverless-todo-app
 
@@ -16,8 +18,9 @@ provider:
 
   environment: 
     PROJECT_NAME: AWS-serverless
-    TODOS_TABLE: Todos-abcd-${self:provider.stage}
-    S3_BUCKET_NAME: serverless-todos-abcd-${self:provider.stage}
+    TODOS_TABLE: Todos-abcde-${self:provider.stage}
+    S3_BUCKET_NAME: serverless-todos-abcde-${self:provider.stage}
+    INDEX_NAME: UserIdIndex
 
 custom:
   documentation:
@@ -73,6 +76,10 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:*
+        Resource: arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*
 
   # TODO: Configure this function
   CreateTodo:
@@ -118,6 +125,10 @@ functions:
         Action:
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - s3:*
+        Resource: arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*
 
   # TODO: Configure this function
   DeleteTodo:
@@ -160,6 +171,8 @@ resources:
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
           - AttributeName: todoId
             AttributeType: S
         KeySchema:
@@ -169,6 +182,15 @@ resources:
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.INDEX_NAME}
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
     onlyBody:
       Type: "AWS::ApiGateway::RequestValidator"
       Properties:
@@ -188,5 +210,22 @@ resources:
               AllowedHeaders:
                 - '*'
               AllowedMethods:
+                - GET
                 - PUT
+                - POST
+                - DELETE
+                - HEAD
               MaxAge: 300
+    BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.S3_BUCKET_NAME}/*'
+        Bucket: !Ref AttachmentsBucket

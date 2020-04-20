@@ -1,146 +1,206 @@
-# Serverless TODO
+# AWS Serverless TODO APP
+It's a simple Todo app built using AWS serverless framework.
 
-To implement this project you need to implement a simple TODO application using AWS Lambda and Serverless framework. Search for all the `TODO:` comments in the code to find the placeholders that you need to implement.
+# API Documentation 
+## GET Get all todos
+```
+https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos
+```
 
-# Functionality of the application
+HEADERS
+```
+AuthorizationBearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg
+```
 
-This appliation will allow to create/remove/update/get TODO items. Each TODO item can optionally have an attachment image. Each user only has access to TODO items that he/she has created. 
+```
+Example Request
+Get all todos
+var request = require('request');
+var options = {
+  'method': 'GET',
+  'url': 'https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos',
+  'headers': {
+    'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg'
+  }
+};
+request(options, function (error, response) { 
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
+```
+```
+Example Response
+200 － OK
+{
+  "items": [
+    {
+      "todoId": "7dca9117-8011-415e-88a2-8a475da1093c",
+      "attachmentUrl": "https://serverless-todos-abcde-dev.s3.amazonaws.com/7dca9117-8011-415e-88a2-8a475da1093c",
+      "userId": "auth0|5e9b1f9b63f8000c8c20256c",
+      "dueDate": "2020-04-26",
+      "createdAt": "1587349209131",
+      "name": "acha",
+      "done": false
+    },
+    {
+      "todoId": "c91cba42-84be-4474-a1d8-24e468c00fa6",
+      "attachmentUrl": "https://i.pinimg.com/564x/f5/7e/00/f57e00306f3183cc39fa919fec41418b.jpg",
+      "userId": "auth0|5e9b1f9b63f8000c8c20256c",
+```
 
-# Functions to be implemented
-
-To implement this project you need to implement the following functions and configure them in the `serverless.yml` file:
-
-* `Auth` - this function should implement a custom authorizer for API Gateway that should be added to all other functions.
-* `GetTodos` - should return all TODOs for a current user. 
-* `CreateTodo` - should create a new TODO for a current user. A shape of data send by a client application to this function can be found in the `CreateTodoRequest.ts` file
-* `UpdateTodo` - should update a TODO item created by a current user. A shape of data send by a client application to this function can be found in the `UpdateTodoRequest.ts` file
-* `DeleteTodo` - should delete a TODO item created by a current user. Expects an id of a TODO item to remove.
-* `GenerateUploadUrl` - returns a presigned url that can be used to upload an attachment file for a TODO item. 
-
-All functions are already connected to appriate events from API gateway
-
-An id of a user can be extracted from a JWT token passed by a client
-
-You also need to add any necessary resources to the `resources` section of the `serverless.yml` file such as DynamoDB table and and S3 bucket.
-
-# Frontend
-
-The `client` folder contains a web application that can use the API that should be developed in the project.
-
-To use it please edit the `config.ts` file in the `client` folder:
-
-```ts
-const apiId = '...' API Gateway id
-export const apiEndpoint = `https://${apiId}.execute-api.us-east-1.amazonaws.com/dev`
-
-export const authConfig = {
-  domain: '...',    // Domain from Auth0
-  clientId: '...',  // Client id from an Auth0 application
-  callbackUrl: 'http://localhost:3000/callback'
+## POST Create todo
+```
+https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos
+```
+HEADERS
+```
+Content-Typeapplication/json
+AuthorizationBearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg
+```
+BODY raw
+```
+{
+	"name": "Water flowers",
+	"dueDate": "2019-06-11",
+	"attachmentUrl?":"https://i.pinimg.com/564x/f5/7e/00/f57e00306f3183cc39fa919fec41418b.jpg"
 }
 ```
 
-# Best practices
+Example Request
+Create todo
+```
+var request = require('request');
+var options = {
+  'method': 'POST',
+  'url': 'https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos',
+  'headers': {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg'
+  },
+  body: JSON.stringify({"name":"Water flowers","dueDate":"2019-06-11","attachmentUrl?":"https://i.pinimg.com/564x/f5/7e/00/f57e00306f3183cc39fa919fec41418b.jpg"})
 
-To complete this exercise please follow the best practices from the 6th lesson of this course.
-
-# Suggestions
-
-To store TODO items you might want to use a DynamoDB table with local secondary index(es). A create a local secondary index you need to a create a DynamoDB resource like this:
-
-```yml
-
-TodosTable:
-  Type: AWS::DynamoDB::Table
-  Properties:
-    AttributeDefinitions:
-      - AttributeName: partitionKey
-        AttributeType: S
-      - AttributeName: sortKey
-        AttributeType: S
-      - AttributeName: indexKey
-        AttributeType: S
-    KeySchema:
-      - AttributeName: partitionKey
-        KeyType: HASH
-      - AttributeName: sortKey
-        KeyType: RANGE
-    BillingMode: PAY_PER_REQUEST
-    TableName: ${self:provider.environment.TODOS_TABLE}
-    LocalSecondaryIndexes:
-      - IndexName: ${self:provider.environment.INDEX_NAME}
-        KeySchema:
-          - AttributeName: partitionKey
-            KeyType: HASH
-          - AttributeName: indexKey
-            KeyType: RANGE
-        Projection:
-          ProjectionType: ALL # What attributes will be copied to an index
-
+};
+request(options, function (error, response) { 
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
+```
+Example Response
+```
+201 － Created
+{
+  "item": {
+    "userId": "auth0|5e9b1f9b63f8000c8c20256c",
+    "todoId": "6b590ef4-9698-461a-a1d9-d6508ba86b5b",
+    "createdAt": "1587356364746",
+    "done": false,
+    "attachmentUrl": "https://serverless-todos-abcde-dev.s3.amazonaws.com/6b590ef4-9698-461a-a1d9-d6508ba86b5b",
+    "name": "Water flowers",
+    "dueDate": "2019-06-11",
+    "attachmentUrl?": "https://i.pinimg.com/564x/f5/7e/00/f57e00306f3183cc39fa919fec41418b.jpg"
+  }
+}
 ```
 
-To query an index you need to use the `query()` method like:
-
-```ts
-await this.dynamoDBClient
-  .query({
-    TableName: 'table-name',
-    IndexName: 'index-name',
-    KeyConditionExpression: 'paritionKey = :paritionKey',
-    ExpressionAttributeValues: {
-      ':paritionKey': partitionKeyValue
-    }
-  })
-  .promise()
+## PUT Update todo
+```
+https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f
+```
+HEADERS
+```
+Content-Typeapplication/json
+AuthorizationBearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg
 ```
 
-# How to run the application
-
-## Backend
-
-To deploy an application run the following commands:
-
+BODY raw
 ```
-cd backend
-npm install
-sls deploy -v
+{
+	"name": "Change the world",
+	"dueDate": "2019-12-11",
+	"done": true
+}
 ```
 
-## Frontend
-
-To run a client application first edit the `client/src/config.ts` file to set correct parameters. And then run the following commands
-
+Example Request
 ```
-cd client
-npm install
-npm run start
+Update todo
+var request = require('request');
+var options = {
+  'method': 'PUT',
+  'url': 'https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/7dca9117-8011-415e-88a2-8a475da1093c',
+  'headers': {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg'
+  },
+  body: JSON.stringify({"name":"Change the world","dueDate":"2019-12-11","done":true})
+
+};
+request(options, function (error, response) { 
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
 ```
 
-This should start a development server with the React application that will interact with the serverless TODO application.
+## DEL Delete todo
+```
+https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb
+```
 
-# Postman collection
+HEADERS
+```
+Content-Typeapplication/json
+AuthorizationBearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg
+```
 
-An alternative way to test your API you can use the Postman collection that contains sample requests. You can find a Postman collection in this project. To import this collection do the following.
+Example Request
+```
+Delete todo
+var request = require('request');
+var options = {
+  'method': 'DELETE',
+  'url': 'https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/7dca9117-8011-415e-88a2-8a475da1093c',
+  'headers': {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg'
+  }
+};
+request(options, function (error, response) { 
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
+```
 
-Click on the import button:
+## POST Get attachment URL
+```
+https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment
+```
 
-![Alt text](images/import-collection-1.png?raw=true "Image 1")
+HEADERS
+```
+AuthorizationBearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg
+```
 
+Example Request
+```
+Get attachment URL
+var request = require('request');
+var options = {
+  'method': 'POST',
+  'url': 'https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment',
+  'headers': {
+    'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1VUTRSRGt6TXpReFJESTROVVUyTXpJd1FrTXhOVU00UXprelJUTXdPVEEzT1VVeE1EUXpNUSJ9.eyJpc3MiOiJodHRwczovL2ZzZG4yLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw1ZTliMWZkNjQ5ZmIyNDBjOGEyMjViMTUiLCJhdWQiOiJueWdpNlhHM3NJNnJzb21KYUtGSEZtM0RtTW9JMEJ6eSIsImlhdCI6MTU4NzMwMTI3NSwiZXhwIjoxNTg3NzMzMjc1LCJhdF9oYXNoIjoiNmtERE1NOWJKeXZwUl80QkVLYkthUSIsIm5vbmNlIjoiZFNSQjBnM2xpODZOMjNucFlIeDNTZ05DSnV5RncxYmEifQ.A66DodxSgWW2oL2nUS9EdTf730VCagMavVWRclNAv3ETKmBFhFSq6e6klmUetxU0IlVVCmCFqmV7wAc95fNvUHA1tLQMNuq6FzcNzmYh0x6Y8BU8VSCQpwBinvAewMwydYBy9yTOjKUXg86GTC3wtB-i_-757O3jTUROMEUFQgfQSrE5IqAqhxs0dFmn9i-BUhPER2Rg8AUh6SD68IPIkH1KigrjkaQrSl5R-e_rggEhJCPd5qWFL4ReAQbEbh4Fp-ddLQQUEfITuN5JTIA_jKvEfDr8cTPQUmEDoD_s5-9SSkZhUjZlFNoZeX15A0zBcYoNQ9C_MWA5yfmyFTQImg'
+  }
+};
+request(options, function (error, response) { 
+  if (error) throw new Error(error);
+  console.log(response.body);
+});
+```
 
-Click on the "Choose Files":
-
-![Alt text](images/import-collection-2.png?raw=true "Image 2")
-
-
-Select a file to import:
-
-![Alt text](images/import-collection-3.png?raw=true "Image 3")
-
-
-Right click on the imported collection to set variables for the collection:
-
-![Alt text](images/import-collection-4.png?raw=true "Image 4")
-
-Provide variables for the collection (similarly to how this was done in the course):
-
-![Alt text](images/import-collection-5.png?raw=true "Image 5")
+Example Response
+```
+200 － OK
+{
+  "uploadUrl": "https://serverless-todos-abcd-dev.s3.amazonaws.com/3836b777-9bc4-4429-9b79-ba4e4f5f91c0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA6PK5T7LSBHJ6RUYS%2F20200419%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20200419T225328Z&X-Amz-Expires=1000&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEN%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIGDA%2BL9HP7gyrhvGIH4M84tnJai7J2cVxYhRYzlxXW1ZAiAn9IS5zr%2FgkuX2mkoYlQl6fJKBXnpe%2BoymKDPHY8QQ4CrxAQj4%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAAaDDk5NTAxODE0NDQ4NCIM%2B%2BykDJdV7YNhwi9QKsUBIRt6bcFwrdUJRGlgeDroNxuEgWJ%2Fu2JRbOG338M0IINQeVCoVZTMvNtjJdoNQOWOWlAj8WaXHCkxh7Ksyj3F1XFlhzXqKKK5GIzYgr54qMNqb3Ko3IEYmWrLX1nzwMyCKa0DnAlusfj83pLHm3kmY9p27wbWlYYclPCPamXHb9d%2B1LhjuYDCeD50Hl7uPmC%2By%2FtSL%2FUy1MTFPyUXP0lO2b1FoSzYiY5lRONSZ6WO3h4ca6gMTo8iex632r2zuQNlebMJXvQwr6nz9AU64QEOP6NJBqzQy17%2BeXzpBWMyqr0Fjse4tDt8dFzz1uFaBQj8tTGmy%2FBcmdnvJhQSEMrd0Lif28BRNvHC8xFE70MUfT8WSZadOfVP5%2FlUST0f519PusWDpNiPJW2HypTFWPcyDNk5J4tXyEOecwZlgNB%2BJUOt%2F9o0%2BFy2gHlSgP4zhMT8Yv95N4qCvr2St1UF5qNSvn9HTDWXhz%2Fv6%2FXhx6W7rP18B1cgRlzayG3DQ60IprCb0vvfIj3WvUMcOTGEce6Vw1R7OsU9nmyGZkavodqZZzqtLnGDfwNbnygP54HQWlc%3D&X-Amz-Signature=f28fae8115ecca36cf02c8dfece9608db933928dcc82daac0cdc0355c5f0b910&X-Amz-SignedHeaders=host"
+}
+```

@@ -5,6 +5,7 @@ import {CreateTodoRequest} from "../requests/CreateTodoRequest";
 import {UpdateTodoRequest} from "../requests/UpdateTodoRequest";
 import {TodoUpdate} from "../models/TodoUpdate";
 
+
 const uuidv4 = require('uuid/v4');
 const todoAccess = new ToDoAccess();
 
@@ -15,11 +16,15 @@ export async function getTodo(jwtToken: string): Promise<TodoItem[]> {
 
 export function createTodo(createTodoRequest: CreateTodoRequest, jwtToken: string): Promise<TodoItem> {
     const userId = parseUserId(jwtToken);
+    const todoId = uuidv4()
+    const BucketName = process.env.S3_BUCKET_NAME
+
     return todoAccess.createTodo({
         userId: userId,
-        todoId: uuidv4(),
+        todoId: todoId,
         createdAt: new Date().getTime().toString(),
         done: false,
+        attachmentUrl: `https://${BucketName}.s3.amazonaws.com/${todoId}`,
         ...createTodoRequest,
     });
 }

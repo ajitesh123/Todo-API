@@ -1,0 +1,128 @@
+{
+	"id": "27eb38e5-b8ae-479a-baaa-074ff61dcb58",
+	"name": "Udacity C4 Project",
+	"timestamp": "2020-04-20T04:20:12.384Z",
+	"collection_id": "5b1078d6-a9d3-4703-bd83-b27a183705c9",
+	"folder_id": 0,
+	"environment_id": "b0067a46-726e-44bb-828f-dbfa271c6510",
+	"totalPass": 0,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "77eb1d01-ab7f-4739-82e3-9eb900f915b8",
+			"name": "Get all todos",
+			"url": "https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos",
+			"time": 147,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				147
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "75db328b-c70b-4f72-bb22-d1431d107dea",
+			"name": "Create todo",
+			"url": "https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos",
+			"time": 140,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				140
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "02814497-ac4a-4e8a-8277-8e573c9efab0",
+			"name": "Update todo",
+			"url": "https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f",
+			"time": 79,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				79
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "e9b1af6b-27b4-462a-81fa-f6eaae38e3ab",
+			"name": "Delete todo",
+			"url": "https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb",
+			"time": 964,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				964
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ade4c4dd-081b-40ed-9e82-73b42135dee7",
+			"name": "Get attachment URL",
+			"url": "https://4763u8ams1.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
+			"time": 864,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				864
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2194,
+	"collection": {
+		"requests": [
+			{
+				"id": "77eb1d01-ab7f-4739-82e3-9eb900f915b8",
+				"method": "GET"
+			},
+			{
+				"id": "75db328b-c70b-4f72-bb22-d1431d107dea",
+				"method": "POST"
+			},
+			{
+				"id": "02814497-ac4a-4e8a-8277-8e573c9efab0",
+				"method": "PUT"
+			},
+			{
+				"id": "e9b1af6b-27b4-462a-81fa-f6eaae38e3ab",
+				"method": "DELETE"
+			},
+			{
+				"id": "ade4c4dd-081b-40ed-9e82-73b42135dee7",
+				"method": "POST"
+			}
+		]
+	}
+}
