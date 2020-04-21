@@ -2,6 +2,9 @@ import 'source-map-support/register'
 
 import {APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler} from 'aws-lambda';
 import {getTodo} from "../../businessLogic/Todo";
+import { createLogger } from '../../utils/logger'
+
+const logger = createLogger('todos')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     // TODO: Get all TODO items for a current user
@@ -11,6 +14,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
     const jwtToken = split[1];
 
     const toDos = await getTodo(jwtToken);
+    logger.info("Fetching list of todo Items")
 
     return {
         statusCode: 200,
